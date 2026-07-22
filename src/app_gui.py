@@ -49,6 +49,17 @@ XL_FORMAT_PDF = 0
 NOME_SAIDA_PADRAO = "MANUAL_CONSOLIDADO.pdf"
 
 
+def resource_path(nome_relativo):
+    """
+    Resolve o caminho de um recurso (ex: ícone) tanto rodando o script
+    diretamente quanto rodando dentro do .exe gerado pelo PyInstaller
+    (que extrai os arquivos embutidos para uma pasta temporária em
+    sys._MEIPASS quando usado com --onefile).
+    """
+    base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, nome_relativo)
+
+
 # ============================================================
 #                LÓGICA DE PROCESSAMENTO (BACKEND)
 # ============================================================
@@ -317,9 +328,10 @@ class Processador:
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Consolidador de PDFs")
+        self.title("CONVERSÃO E CONSOLIDAÇÃO DE PDFs")
         self.geometry("720x560")
         self.minsize(640, 480)
+        self._aplicar_icone()
 
         self.log_queue = queue.Queue()
         self.cancel_event = threading.Event()
@@ -329,6 +341,21 @@ class App(tk.Tk):
         self._montar_widgets()
         self._checar_dependencias()
         self.after(100, self._processar_fila)
+
+    def _aplicar_icone(self):
+        """Define o ícone da janela (título/barra de tarefas), tanto em modo
+        script quanto empacotado no .exe."""
+        try:
+            caminho_icone = resource_path(os.path.join("src", "icon.ico"))
+            if not os.path.exists(caminho_icone):
+                # fallback: caso o .ico esteja na raiz junto do script/exe
+                caminho_icone = resource_path("icon.ico")
+            if os.path.exists(caminho_icone):
+                self.iconbitmap(caminho_icone)
+        except Exception:
+            # Se falhar (ex: rodando fora do Windows), a janela simplesmente
+            # segue sem ícone customizado, sem travar o programa.
+            pass
 
     # -------------------- construção da interface --------------------
 
