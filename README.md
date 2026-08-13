@@ -6,22 +6,17 @@ e unir tudo (PDFs existentes + convertidos) em um único arquivo consolidado.
 Requer **Windows com Microsoft Office instalado** (a conversão usa automação COM
 do Word/Excel).
 
-## O que mudou em relação ao script original
+## Funções
 
-- Interface gráfica: seleção de pasta por diálogo, sem precisar editar código.
+- Interface gráfica: seleção de pasta por diálogo.
 - Nome do PDF final configurável na tela (padrão `MANUAL_CONSOLIDADO.pdf`).
 - Opção de **reconverter** arquivos mesmo se já existir um PDF de mesmo nome.
 - Barra de progresso e status em tempo real.
 - Log exibido na tela (além de continuar sendo salvo em `process_log.txt`
-  dentro da pasta processada, igual antes).
+  dentro da pasta processada).
 - Botão para **cancelar** o processamento em andamento.
 - Botões para abrir a pasta processada e o PDF final ao terminar.
 - Aviso automático se `pywin32` ou `pypdf` não estiverem instalados.
-
-A lógica de conversão (Word/Excel → PDF via COM) e de união dos PDFs é a mesma
-do script original — só foi reorganizada em uma classe e passou a reportar
-progresso via fila de mensagens, para não travar a interface durante o
-processamento.
 
 ## Como rodar localmente (para testar antes de empacotar)
 
@@ -52,4 +47,4 @@ Dicas:
 - O primeiro build pode demorar um pouco e o `.exe` pode ficar relativamente
   grande (é normal, o PyInstaller empacota o Python inteiro).
 - Alguns antivírus corporativos podem bloquear executáveis não assinados
-  gerados por PyInstaller na primeira execução — vale avisar a equipe.
+  gerados por PyInstaller na primeira execução.
