@@ -2,7 +2,7 @@
 import PyInstaller.__main__
 
 PyInstaller.__main__.run([
-    '--name=CONVERSÃO E CONSOLIDAÇÃO DE PDFs',
+    '--name=PDFs',
     '--onefile',
     '--windowed',
     '--icon=src/icon.ico',
